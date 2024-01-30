@@ -28,10 +28,11 @@ def cadastro(request):
             user = User.objects.create_user(
                 username=nome,
                 email=email,
-                password=senha
+                password=senha,
+                is_active=False
             )
             #Mensagem sucesso
-            messages.add_message(request, constants.SUCCESS, 'Usuário criado com sucesso')
+            messages.add_message(request, constants.SUCCESS, 'Usuário criado com sucesso, necessário sinalizar a supervisão para ativa-lo')
             return render(request, 'cadastro.html')
         except:
             #Mensagem sucesso
