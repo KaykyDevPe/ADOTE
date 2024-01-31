@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Tag, Raca, Pet
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.shortcuts import redirect
+from adotar.models import PedidoAdocao
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -70,4 +72,33 @@ def ver_pet(request, id):
     if request.method == "GET":
         pet = Pet.objects.get(id=id)
         return render(request, 'ver_pet.html', {'pet': pet})
+    
+
+@login_required
+def ver_pedido_adocao(request):
+    if request.method == "GET":
+        pedidos = PedidoAdocao.objects.filter(usuario=request.user).filter(status="AG")
+        return render(request, 'ver_pedido_adocao.html', {'pedidos': pedidos})
+    
+
+@login_required
+def dashboard(request):
+    if request.method == "GET":
+        return render(request, 'dashboard.html')
+    
+
+@csrf_exempt
+def api_adocoes_por_raca(request):
+    racas = Raca.objects.all()
+
+    qtd_adocoes = []
+    for raca in racas:
+        adocoes = PedidoAdocao.objects.filter(pet__raca=raca).count()
+        qtd_adocoes.append(adocoes)
+
+    racas = [raca.raca for raca in racas]
+    data = {'qtd_adocoes': qtd_adocoes,
+            'labels': racas}
+    
+    return JsonResponse(data)
     
