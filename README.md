@@ -1,6 +1,6 @@
 # ADOTE
 
-Aplicação WEB, destinada à adoções de animais.
+Aplicação WEB, destinada à doação e adoção de animais, cadastro, listagem, edição e exclusão de animais, gerenciamento de solicitações e análise de solicitante, dashboards de acompanhamento de adoção. Feito com Python, Django, JavaScript, API's, ChartJS, HTML e CSS. Backend + Frontend + Estruturação do Banco de Dados.
 
 ## Comece por aqui
 
